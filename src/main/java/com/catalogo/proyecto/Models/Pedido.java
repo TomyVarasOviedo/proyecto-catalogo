@@ -1,25 +1,36 @@
 package com.catalogo.proyecto.Models;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
-@Entity
+@Entity(name = "pedidos")
 public class Pedido {
+    @SuppressWarnings("deprecation")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @Column
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+        name = "UUID",
+        strategy = "org.hibernate.id.UUIDGenerator"
+        )
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
+    @OneToOne
     private Usuario comprador;
-    @Column
-    private ArrayList<Ropa> articulos;
+
+    @OneToMany(mappedBy = "id")
+    private List<Ropa> articulos;
     @Column
     private String descripcion;
-    @Column
+    @OneToOne
     private Usuario vendedor;
 
 }

@@ -1,34 +1,31 @@
 package com.catalogo.proyecto.Models;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-@Entity(name ="Usuarios")
+@Entity(name="usuarios")
+@Table
 public class Usuario {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private long id;
-    @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column
     private String username;
     @Column
     private String password;
-    /**
-     * Contructor principal
-     * @param username 
-     * @param password Contraseña sin hashear
-     */
-    public Usuario(String username, String password) {
-        this.username = username;
-        this.password =  password;
-    }
 
-    public long getId() {
+    // @OneToMany(mappedBy = "vendedor")
+    // private ArrayList<Pedido> compras;
+
+    public Long getId() {
         return id;
     }
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public String getUsername() {

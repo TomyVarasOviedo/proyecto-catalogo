@@ -1,13 +1,16 @@
 package com.catalogo.proyecto.Models;
 
+import java.util.ArrayList;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
-@Entity
-public class Secciones {
+@Entity(name = "secciones")
+public class Seccion {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -16,9 +19,11 @@ public class Secciones {
     @Column
     private String descripcion;
     
-    private Categoria categoria;
+    @OneToMany(mappedBy = "seccion")
+    private ArrayList<Categoria> categoria;
 
-    private Catalogo catalogo;
+
+    // private Catalogo catalogo;
 
     public Long getId() {
         return id;
@@ -44,12 +49,12 @@ public class Secciones {
         this.descripcion = descripcion;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
-    }
+    // public Categoria getCategoria() {
+    //     return categoria;
+    // }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
+    // public void setCategoria(Categoria categoria) {
+    //     this.categoria = categoria;
+    // }
 
 }

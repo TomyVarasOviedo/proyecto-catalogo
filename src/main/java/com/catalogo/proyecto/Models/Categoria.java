@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Categoria {
@@ -13,6 +15,11 @@ public class Categoria {
     private Long id;
     @Column
     private String nombre;
+
+    @ManyToOne
+    @JoinColumn(name = "seccion_id")
+    private Seccion seccion;
+
     @Column
     private String descripcion;
 

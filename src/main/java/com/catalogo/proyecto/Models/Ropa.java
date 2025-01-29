@@ -5,8 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
-@Entity(name = "articuloss")
+@Entity(name = "articulos")
 public class Ropa {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,7 +18,12 @@ public class Ropa {
     private String nombre;
     @Column
     private String descripcion;
-    @Column
+
+    @ManyToOne
+    @JoinColumn(name = "pedido_id")
+    private Pedido compra;
+
+    @OneToOne
     private Talle talle;
     
 }
