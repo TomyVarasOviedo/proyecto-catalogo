@@ -1,7 +1,8 @@
 package com.catalogo.proyecto.Models;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
+
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -27,7 +28,7 @@ public class Pedido {
     private Usuario comprador;
 
     @OneToMany(mappedBy = "id")
-    private List<Ropa> articulos;
+    private ArrayList<Ropa> articulos;
     @Column
     private String descripcion;
     @OneToOne

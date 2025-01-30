@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity(name = "secciones")
@@ -18,12 +20,16 @@ public class Seccion {
     private String nombre;
     @Column
     private String descripcion;
+
+    @OneToMany
+    private ArrayList<Ropa> articulos;
     
     @OneToMany(mappedBy = "seccion")
     private ArrayList<Categoria> categoria;
 
-
-    // private Catalogo catalogo;
+    @ManyToOne
+    @JoinColumn(name = "catalogo_id")
+    private Catalogo catalogo;
 
     public Long getId() {
         return id;

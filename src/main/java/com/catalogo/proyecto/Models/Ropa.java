@@ -1,5 +1,6 @@
 package com.catalogo.proyecto.Models;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,6 +19,10 @@ public class Ropa {
     private String nombre;
     @Column
     private String descripcion;
+    
+    @ManyToOne
+    @JoinColumn(name = "seccion_id")
+    private Seccion seccion;
 
     @ManyToOne
     @JoinColumn(name = "pedido_id")
