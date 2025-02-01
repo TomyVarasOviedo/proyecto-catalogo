@@ -24,6 +24,10 @@ public class UsuarioService {
         return repositorioUsuario.obtenerComprasUsuario(idUsuario);
     }
 
+    public List<Usuario> getUsuariosAll() {
+        return repositorioUsuario.findAll();
+    }
+
     public Optional<Usuario> getUsuarioId(Long idUsuario) {
         return repositorioUsuario.findById(idUsuario);
     }
