@@ -24,12 +24,16 @@ public class PedidoService {
         return repoPedido.findById(pedidoId);
     }
 
-    public boolean eliminarPedido(UUID pedido) {
+    public List<Pedido> getPedidoAll() {
+        return repoPedido.findAll();
+    }
+
+    public Pedido eliminarPedido(UUID pedido) {
         if (!(this.getPedidoId(pedido).isEmpty())) {
             repoPedido.deleteById(pedido);
-            return true;
+            return repoPedido.findById(pedido).get();
         }
-        return false;
+        return null;
     }
 
     public List<Pedido> getPedidoFecha(LocalDateTime fechaInicio, LocalDateTime fechaFinal) {
