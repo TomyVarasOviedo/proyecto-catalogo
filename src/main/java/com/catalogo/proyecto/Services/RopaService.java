@@ -3,10 +3,12 @@ package com.catalogo.proyecto.Services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.catalogo.proyecto.Models.Ropa;
 import com.catalogo.proyecto.Repositories.IORopa;
 
+@Service
 public class RopaService {
     @Autowired
     private IORopa repoRopa;
