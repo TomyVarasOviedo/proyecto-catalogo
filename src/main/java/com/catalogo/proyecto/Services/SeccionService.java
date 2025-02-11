@@ -26,12 +26,13 @@ public class SeccionService {
         return repoSeccion.findById(seccionId);
     }
 
-    public boolean eliminarSeccion(Long seccionId) {
-        if (!(this.getSeccionId(seccionId).isEmpty())) {
+    public Seccion eliminarSeccion(Long seccionId) {
+        Optional<Seccion> buscar = this.getSeccionId(seccionId);
+        if (!buscar.isEmpty()) {
             repoSeccion.deleteById(seccionId);
-            return true;
+            return buscar.get();
         }else{
-            return false;
+            return null;
         }
     }
 

@@ -3,10 +3,12 @@ package com.catalogo.proyecto.Services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.catalogo.proyecto.Models.Ropa;
 import com.catalogo.proyecto.Repositories.IORopa;
 
+@Service
 public class RopaService {
     @Autowired
     private IORopa repoRopa;
@@ -19,11 +21,11 @@ public class RopaService {
         return repoRopa.findById(idRopa);
     }
 
-    public boolean eliminarRopa(Long idRopa) {
+    public Ropa eliminarRopa(Long idRopa) {
         if (!(this.getRopaId(idRopa).isEmpty())) {
             repoRopa.deleteById(idRopa);
-            return true;
+            return this.getRopaId(idRopa).get();
         }
-        return false;
+        return null;
     }
 }

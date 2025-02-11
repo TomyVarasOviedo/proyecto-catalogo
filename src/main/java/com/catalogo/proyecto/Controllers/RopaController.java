@@ -37,9 +37,9 @@ public class RopaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.guardRopa(articulo));
     }
     
-    // @GetMapping("/delete")
-    // public ResponseEntity<Ropa> eliminarRopa(@RequestParam Long id) {
-    //     return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.eliminarRopa(id));
-    // }
+    @GetMapping("/delete")
+    public ResponseEntity<Ropa> eliminarRopa(@RequestParam Long id) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.eliminarRopa(id));
+    }
     
 }
