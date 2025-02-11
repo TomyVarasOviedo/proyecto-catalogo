@@ -21,11 +21,11 @@ public class RopaService {
         return repoRopa.findById(idRopa);
     }
 
-    public boolean eliminarRopa(Long idRopa) {
+    public Ropa eliminarRopa(Long idRopa) {
         if (!(this.getRopaId(idRopa).isEmpty())) {
             repoRopa.deleteById(idRopa);
-            return true;
+            return this.getRopaId(idRopa).get();
         }
-        return false;
+        return null;
     }
 }

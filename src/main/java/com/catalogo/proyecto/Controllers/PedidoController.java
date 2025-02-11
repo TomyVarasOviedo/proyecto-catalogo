@@ -24,10 +24,10 @@ public class PedidoController {
     @Autowired
     private PedidoService servicio;
 
-    @GetMapping("/search")
-    public Pedido getPedidoId(@RequestParam UUID id) {
-        return servicio.getPedidoId(id).get();
-    }
+    // @GetMapping("/search")
+    // public Pedido getPedidoId(@RequestParam UUID id) {
+    //     return servicio.getPedidoId(id).get();
+    // }
 
     @GetMapping("/search")
     public List<Pedido> getMethodName(@RequestParam LocalDateTime fechaInicio, @RequestParam LocalDateTime fechaFin) {
