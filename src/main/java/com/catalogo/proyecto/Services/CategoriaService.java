@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.catalogo.proyecto.Exceptions.DataNotFoundException;
 import com.catalogo.proyecto.Models.Categoria;
 import com.catalogo.proyecto.Repositories.IOCategoria;
 
@@ -20,10 +21,9 @@ public class CategoriaService {
 
     public Optional<Categoria> getCategoriaId(Long idCategoria) {
         Optional<Categoria> busqueda = repoCategoria.findById(idCategoria);
-        if (!busqueda.isEmpty()) {
-            return busqueda;
-        }
-        return null;
+        return Optional.ofNullable(busqueda.orElseThrow(
+            ()-> new DataNotFoundException("Categoria "+String.valueOf(idCategoria) +" no encontrado")
+        ));
     }
 
     public List<Categoria> getCategoriaAll() {
