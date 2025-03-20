@@ -1,6 +1,5 @@
 package com.catalogo.proyecto.Controllers;
 
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,9 +24,9 @@ public class RopaController {
 
     @GetMapping("/search")
     public Ropa getRopaId(@RequestParam Long id) {
-        Optional<Ropa> articulo = service.getRopaId(id);
-        if (!articulo.isEmpty()) {
-            return articulo.get();
+        Ropa articulo = service.getRopaId(id);
+        if (articulo != null) {
+            return articulo;
         }
         return null;
     }
