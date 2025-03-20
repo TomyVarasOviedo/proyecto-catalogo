@@ -24,10 +24,10 @@ public class PedidoController {
     @Autowired
     private PedidoService servicio;
 
-    // @GetMapping("/search")
-    // public Pedido getPedidoId(@RequestParam UUID id) {
-    //     return servicio.getPedidoId(id).get();
-    // }
+    @GetMapping("/search")
+    public ResponseEntity<Pedido> getPedidoId(@RequestParam UUID id) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(servicio.getPedidoId(id));
+    }
 
     @GetMapping("/search")
     public List<Pedido> getMethodName(@RequestParam LocalDateTime fechaInicio, @RequestParam LocalDateTime fechaFin) {
@@ -46,7 +46,6 @@ public class PedidoController {
     @GetMapping("/delete")
     public ResponseEntity<Pedido> deletePedido(@RequestParam UUID idPedido) {
         return ResponseEntity.status(HttpStatus.OK).body(servicio.eliminarPedido(idPedido));
-    }
-    
+    }   
     
 }

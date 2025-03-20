@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.catalogo.proyecto.Exceptions.DataNotFoundException;
 import com.catalogo.proyecto.Models.Pedido;
 import com.catalogo.proyecto.Repositories.IOPedido;
 
@@ -20,8 +21,11 @@ public class PedidoService {
         return repoPedido.save(pedido);
     }
 
-    public Optional<Pedido> getPedidoId(UUID pedidoId) {
-        return repoPedido.findById(pedidoId);
+    public Pedido getPedidoId(UUID pedidoId) {
+        Optional<Pedido> busqueda = repoPedido.findById(pedidoId);
+        return busqueda.orElseThrow(
+            () -> new DataNotFoundException("Pedido: "+String.valueOf(pedidoId) +" no encontrado")
+        );
     }
 
     public List<Pedido> getPedidoAll() {
@@ -29,7 +33,7 @@ public class PedidoService {
     }
 
     public Pedido eliminarPedido(UUID pedido) {
-        if (!(this.getPedidoId(pedido).isEmpty())) {
+        if (this.getPedidoId(pedido) != null) {
             repoPedido.deleteById(pedido);
             return repoPedido.findById(pedido).get();
         }
@@ -38,9 +42,17 @@ public class PedidoService {
 
     public List<Pedido> getPedidoFecha(LocalDateTime fechaInicio, LocalDateTime fechaFinal) {
         try {
-            return repoPedido.obtenerPedidoPeriodo(fechaInicio, fechaFinal);
-        } catch (Exception e) {
+            List<Pedido> buscar = repoPedido.obtenerPedidoPeriodo(fechaInicio, fechaFinal);
+            if (!buscar.isEmpty()) {
+                return buscar;
+            }else{
+                throw new DataNotFoundException("Pedidos no encontrados en esa fecha");
+            }
+        } catch (DataNotFoundException e) {
             // Agregar excepciones acordes a los resultados que el sistema necesita
+            return null;
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
             return null;
         }
     }
