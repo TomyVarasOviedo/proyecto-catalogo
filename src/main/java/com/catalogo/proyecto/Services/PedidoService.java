@@ -37,23 +37,15 @@ public class PedidoService {
             repoPedido.deleteById(pedido);
             return repoPedido.findById(pedido).get();
         }
-        return null;
+        throw new DataNotFoundException("Pedido "+String.valueOf(pedido)+" no encontrado");
     }
 
     public List<Pedido> getPedidoFecha(LocalDateTime fechaInicio, LocalDateTime fechaFinal) {
-        try {
-            List<Pedido> buscar = repoPedido.obtenerPedidoPeriodo(fechaInicio, fechaFinal);
-            if (!buscar.isEmpty()) {
-                return buscar;
-            }else{
-                throw new DataNotFoundException("Pedidos no encontrados en esa fecha");
-            }
-        } catch (DataNotFoundException e) {
-            // Agregar excepciones acordes a los resultados que el sistema necesita
-            return null;
-        }catch (Exception ex){
-            System.out.println(ex.getMessage());
-            return null;
+        List<Pedido> buscar = repoPedido.obtenerPedidoPeriodo(fechaInicio, fechaFinal);
+        if (!buscar.isEmpty()) {
+            return buscar;
+        }else{
+            throw new DataNotFoundException("Pedidos no encontrados en esa fecha");
         }
     }
 }

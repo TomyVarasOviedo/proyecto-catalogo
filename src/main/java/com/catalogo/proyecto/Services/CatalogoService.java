@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.catalogo.proyecto.Exceptions.DataNotFoundException;
 import com.catalogo.proyecto.Models.Catalogo;
 import com.catalogo.proyecto.Repositories.IOCatalogo;
 
@@ -17,15 +18,20 @@ public class CatalogoService {
         return repoCatalogo.save(catalogo);
     }
 
-    public Optional<Catalogo> getCatalogoId(Long idCatalogo) {
-        return repoCatalogo.findById(idCatalogo);
+    public Catalogo getCatalogoId(Long idCatalogo) {
+        Optional<Catalogo> busqueda = repoCatalogo.findById(idCatalogo);
+        return busqueda.orElseThrow(
+            () -> new DataNotFoundException("Catalogo "+String.valueOf(idCatalogo)+" no encontrado")
+        );
     }
 
-    public boolean eliminarCatalogo(Long idCatalogo) {
-        if (!(this.getCatalogoId(idCatalogo).isEmpty())) {
+    public Catalogo eliminarCatalogo(Long idCatalogo) {
+        Catalogo busqueda = this.getCatalogoId(idCatalogo);
+        if (busqueda != null) {
             repoCatalogo.deleteById(idCatalogo);
-            return true;
+            return busqueda;
+        }else{
+            throw new DataNotFoundException("Catalogo "+String.valueOf(idCatalogo)+" no encontrado");
         }
-        return false;
     }
 }

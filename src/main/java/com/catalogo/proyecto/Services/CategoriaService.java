@@ -17,14 +17,10 @@ public class CategoriaService {
     private IOCategoria repoCategoria;
 
     public Categoria guardCategoria(Categoria categoria) {
-        try {
-            if (this.getCategoriaId(categoria.getId()) != null) {
-                return repoCategoria.save(categoria);
-            }else{
-                throw new InvalidDataException("Datos duplicados");
-            }
-        } catch (InvalidDataException e) {
-            return null;
+        if (this.getCategoriaId(categoria.getId()) != null) {
+            return repoCategoria.save(categoria);
+        }else{
+            throw new InvalidDataException("Datos duplicados");
         }
     }
 
@@ -45,7 +41,7 @@ public class CategoriaService {
             repoCategoria.deleteById(idCategoria);
             return busqueda;
         }else{
-            return null;
+            throw new DataNotFoundException("Categoria "+String.valueOf(idCategoria)+" no encontrada");
         }
     }
 }       

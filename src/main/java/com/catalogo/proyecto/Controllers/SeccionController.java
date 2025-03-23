@@ -1,7 +1,5 @@
 package com.catalogo.proyecto.Controllers;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,13 +27,8 @@ public class SeccionController {
     }
 
     @GetMapping("/search")
-    public Seccion getSeccionId(@RequestParam Long id) {
-        Optional<Seccion> buscar = service.getSeccionId(id);;
-        if (!buscar.isEmpty()) {
-            return buscar.get();
-        }else{
-            return null;
-        }
+    public ResponseEntity<Seccion> getSeccionId(@RequestParam Long id) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.getSeccionId(id));
     }
     
     @GetMapping("/delete")

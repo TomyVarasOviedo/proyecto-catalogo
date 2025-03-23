@@ -15,7 +15,7 @@ public class RopaService {
     @Autowired
     private IORopa repoRopa;
 
-    public Ropa guardRopa(Ropa ropa) {
+    public Ropa guardarRopa(Ropa ropa) {
         if (ropa.getNombre() == "" || ropa.getDescripcion() == "") {
             throw new InvalidDataException("Ropa invalida para guardarse");
         }

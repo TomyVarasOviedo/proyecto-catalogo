@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.catalogo.proyecto.Models.Pedido;
 import com.catalogo.proyecto.Services.PedidoService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,8 +25,8 @@ public class PedidoController {
     @Autowired
     private PedidoService servicio;
 
-    @GetMapping("/search")
-    public ResponseEntity<Pedido> getPedidoId(@RequestParam UUID id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Pedido> getPedidoId(@PathVariable UUID id) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(servicio.getPedidoId(id));
     }
 

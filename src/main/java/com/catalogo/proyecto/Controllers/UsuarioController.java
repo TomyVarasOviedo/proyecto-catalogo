@@ -13,6 +13,8 @@ import com.catalogo.proyecto.Models.Usuario;
 import com.catalogo.proyecto.Services.UsuarioService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 
 
@@ -32,6 +34,16 @@ public class UsuarioController {
     @GetMapping("/")
     public List<Usuario> getUsuariosAll() {
         return service.getUsuariosAll();
+    }
+    
+    @GetMapping("/{idUsuario}")
+    public ResponseEntity<Usuario> getUsuarioId(@PathVariable Long idUsuario) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.getUsuarioId(idUsuario));
+    }
+
+    @GetMapping("/delete/{idUsuario}")
+    public ResponseEntity<Usuario> eliminarUsuario(@PathVariable Long idUsuario) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.eliminarUsuario(idUsuario));
     }
     
 }
