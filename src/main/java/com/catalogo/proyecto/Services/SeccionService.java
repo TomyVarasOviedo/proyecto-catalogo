@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.catalogo.proyecto.Exceptions.DataNotFoundException;
 import com.catalogo.proyecto.Models.Seccion;
 import com.catalogo.proyecto.Repositories.IOSeccion;
 
@@ -22,17 +23,20 @@ public class SeccionService {
         }
     }
 
-    public Optional<Seccion> getSeccionId(Long seccionId) {
-        return repoSeccion.findById(seccionId);
+    public Seccion getSeccionId(Long seccionId) {
+        Optional<Seccion> busqueda = repoSeccion.findById(seccionId);
+        return busqueda.orElseThrow(
+            () -> new DataNotFoundException("Seccion "+String.valueOf(seccionId)+" no encontrada")
+        );
     }
 
     public Seccion eliminarSeccion(Long seccionId) {
-        Optional<Seccion> buscar = this.getSeccionId(seccionId);
-        if (!buscar.isEmpty()) {
+        Seccion buscar = this.getSeccionId(seccionId);
+        if (buscar != null) {
             repoSeccion.deleteById(seccionId);
-            return buscar.get();
+            return buscar;
         }else{
-            return null;
+            throw new DataNotFoundException("Seccion "+String.valueOf(seccionId)+" no encontrada");
         }
     }
 

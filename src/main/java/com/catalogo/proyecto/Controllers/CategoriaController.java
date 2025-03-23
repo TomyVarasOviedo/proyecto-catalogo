@@ -33,8 +33,8 @@ public class CategoriaController {
     }
     
     @GetMapping("/search")
-    public Categoria getCategoriaId(@RequestParam Long id) {
-        return servicio.getCategoriaId(id).get();
+    public ResponseEntity<Categoria> getCategoriaId(@RequestParam Long id) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(servicio.getCategoriaId(id));
     }
 
     @GetMapping("/delete")

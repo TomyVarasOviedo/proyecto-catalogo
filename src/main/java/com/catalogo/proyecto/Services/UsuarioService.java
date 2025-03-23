@@ -4,10 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.catalogo.proyecto.Exceptions.ConexionBDException;
 import com.catalogo.proyecto.Exceptions.DataNotFoundException;
 import com.catalogo.proyecto.Models.Pedido;
 import com.catalogo.proyecto.Models.Usuario;
@@ -31,27 +29,24 @@ public class UsuarioService {
         return repositorioUsuario.findAll();
     }
 
-    public Optional<Usuario> getUsuarioId(Long idUsuario) {
-        return Optional.ofNullable(repositorioUsuario.findById(idUsuario).orElseThrow(
-            ()-> new DataNotFoundException("Usuario: "+String.valueOf(idUsuario)+" no encontrado"))
+    public Usuario getUsuarioId(Long idUsuario) {
+        Optional<Usuario> busqueda = repositorioUsuario.findById(idUsuario);
+        return busqueda.orElseThrow(
+            () -> new DataNotFoundException("Usuario "+String.valueOf(idUsuario)+" no encontrado")
         );
     }
 
     public Usuario guardarUsuario(Usuario usuario) {
-        try {
-            return repositorioUsuario.save(usuario);
-        } 
-        catch (DataAccessException e) {
-            throw new ConexionBDException("Error al acceder a la BD");
-        }
+        return repositorioUsuario.save(usuario);
     }
 
-    public boolean eliminarUsuario(Long idUsuario) {
-        if (!(this.getUsuarioId(idUsuario).isEmpty())) {
+    public Usuario eliminarUsuario(Long idUsuario) {
+        Usuario busqueda = this.getUsuarioId(idUsuario);
+        if (busqueda != null) {
             repositorioUsuario.deleteById(idUsuario);
-            return true;
+            return busqueda;
         }else{
-            return false;
+            throw new DataNotFoundException("Usuario "+String.valueOf(idUsuario)+" no encontrado");
         }
     }
     

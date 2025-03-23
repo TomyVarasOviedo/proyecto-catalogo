@@ -1,6 +1,5 @@
 package com.catalogo.proyecto.Controllers;
 
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,17 +23,13 @@ public class RopaController {
     private RopaService service;
 
     @GetMapping("/search")
-    public Ropa getRopaId(@RequestParam Long id) {
-        Optional<Ropa> articulo = service.getRopaId(id);
-        if (!articulo.isEmpty()) {
-            return articulo.get();
-        }
-        return null;
+    public ResponseEntity<Ropa> getRopaId(@RequestParam Long id) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.getRopaId(id));
     }
     
     @PostMapping("/")
     public ResponseEntity<Ropa> guardarRopa(@RequestBody Ropa articulo) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.guardRopa(articulo));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.guardarRopa(articulo));
     }
     
     @GetMapping("/delete")

@@ -21,6 +21,8 @@ public class Usuario {
     @Column
     private String username;
     @Column
+    private String mail;
+    @Column
     private String password;
 
     // @OneToMany(mappedBy = "vendedor")
