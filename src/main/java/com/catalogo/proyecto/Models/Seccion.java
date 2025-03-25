@@ -1,6 +1,8 @@
 package com.catalogo.proyecto.Models;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,8 +12,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity(name = "secciones")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Seccion {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,13 +28,14 @@ public class Seccion {
     private String descripcion;
 
     @OneToMany
-    private ArrayList<Ropa> articulos;
+    private List<Ropa> articulos;
     
     @OneToMany(mappedBy = "seccion")
-    private ArrayList<Categoria> categoria;
+    private List<Categoria> categoria;
 
     @ManyToOne
     @JoinColumn(name = "catalogo_id")
+    @JsonBackReference
     private Catalogo catalogo;
 
     public Long getId() {
@@ -55,12 +62,29 @@ public class Seccion {
         this.descripcion = descripcion;
     }
 
-    // public Categoria getCategoria() {
-    //     return categoria;
-    // }
+    public List<Ropa> getArticulos() {
+        return articulos;
+    }
 
-    // public void setCategoria(Categoria categoria) {
-    //     this.categoria = categoria;
-    // }
+    public void setArticulos(List<Ropa> articulos) {
+        this.articulos = articulos;
+    }
+
+    public List<Categoria> getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(List<Categoria> categoria) {
+        this.categoria = categoria;
+    }
+
+    public Catalogo getCatalogo() {
+        return catalogo;
+    }
+
+    public void setCatalogo(Catalogo catalogo) {
+        this.catalogo = catalogo;
+    }
+
 
 }

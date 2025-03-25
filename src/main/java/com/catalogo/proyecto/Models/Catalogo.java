@@ -1,6 +1,7 @@
 package com.catalogo.proyecto.Models;
 
-import java.util.ArrayList;
+import java.util.List;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +24,7 @@ public class Catalogo {
     private int cantidad;
 
     @OneToMany(mappedBy = "catalogo")
-    private ArrayList<Seccion> secciones;
+    private List<Seccion> secciones;
 
     public Long getId() {
         return id;
@@ -42,5 +43,11 @@ public class Catalogo {
     }
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+    public List<Seccion> getSecciones() {
+        return secciones;
+    }
+    public void setSecciones(List<Seccion> secciones) {
+        this.secciones = secciones;
     }
 }

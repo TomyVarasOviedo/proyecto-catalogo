@@ -1,5 +1,7 @@
 package com.catalogo.proyecto.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +24,7 @@ public class Categoria {
 
     @ManyToOne
     @JoinColumn(name = "seccion_id")
+    @JsonBackReference
     private Seccion seccion;
 
     @Column
