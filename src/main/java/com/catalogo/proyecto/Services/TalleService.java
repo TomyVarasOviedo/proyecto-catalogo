@@ -16,10 +16,11 @@ public class TalleService {
     IOTalle repoTalle;
 
     public Talle guardarTalle(Talle talle) {
-        if (talle.getNombre() == "") {
-            throw new InvalidDataException("Talle invalida para guardarse");
+        if (this.validarTalleEntry(talle)) {
+            return repoTalle.save(talle);
+        }else{
+            throw new InvalidDataException("Error al insertar en la base de datos");
         }
-        return repoTalle.save(talle);
     }
 
     public Talle getTalleId(int idTalle) {
@@ -37,5 +38,18 @@ public class TalleService {
         }else{
             throw new DataNotFoundException("Talle "+String.valueOf(idTalle)+" no encontrado");
         }
+    }
+
+    /**
+     * Metodo para validar los parametros de entrada
+     * @param talle Talle
+     * @return Si no hay problema con los parametros devuelve true
+     */
+    private boolean validarTalleEntry(Talle talle) {
+        if (talle.getNombre() == "") {
+            throw new InvalidDataException("Los datos del talle no deben ser nulos");
+        }
+
+        return true;
     }
 }

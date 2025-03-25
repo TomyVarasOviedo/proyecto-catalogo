@@ -15,11 +15,15 @@ public class RopaService {
     @Autowired
     private IORopa repoRopa;
 
+    @Autowired
+    private TalleService servicioTalle;
+
     public Ropa guardarRopa(Ropa ropa) {
-        if (ropa.getNombre() == "" || ropa.getDescripcion() == "") {
-            throw new InvalidDataException("Ropa invalida para guardarse");
+        if (this.validarRopaEntry(ropa)) {
+            return repoRopa.save(ropa);
+        }else{
+            throw new InvalidDataException("Error al ingresar en la base de datos");
         }
-        return repoRopa.save(ropa);
     }
 
     public Ropa getRopaId(Long idRopa) {
@@ -36,5 +40,21 @@ public class RopaService {
             return this.getRopaId(idRopa);
         }
         return null;
+    }
+
+    /**
+     * Metodo para validar los parametros de entrada de una Ropa
+     * @param ropa Ropa
+     * @return Si los parametros son validos devuelve true
+     */
+    private boolean validarRopaEntry(Ropa ropa) {
+        if (ropa.getNombre() == null || ropa.getNombre() == ""
+            || ropa.getDescripcion() == null || ropa.getDescripcion() == ""|| ropa.getTalle() == null) {
+                throw new InvalidDataException("Los datos ingresados no son validos");
+            
+        }
+        servicioTalle.getTalleId(ropa.getTalle().getId());
+
+        return true;
     }
 }

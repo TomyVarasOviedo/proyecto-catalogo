@@ -17,10 +17,10 @@ public class CategoriaService {
     private IOCategoria repoCategoria;
 
     public Categoria guardCategoria(Categoria categoria) {
-        if (this.getCategoriaId(categoria.getId()) != null) {
+        if (this.validarCategoriaEntry(categoria)) {
             return repoCategoria.save(categoria);
         }else{
-            throw new InvalidDataException("Datos duplicados");
+            throw new InvalidDataException("Error al insertar en la base de datos");
         }
     }
 
@@ -43,5 +43,13 @@ public class CategoriaService {
         }else{
             throw new DataNotFoundException("Categoria "+String.valueOf(idCategoria)+" no encontrada");
         }
+    }
+
+    private boolean validarCategoriaEntry(Categoria categoria) {
+        if (categoria.getNombre() == "" || categoria.getNombre() == null 
+        || categoria.getDescripcion() == "" || categoria.getDescripcion() == null) {
+            throw new InvalidDataException("Los datos de una categoria no deben ser nulos");
+        }
+        return true;
     }
 }       

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.catalogo.proyecto.Exceptions.DataNotFoundException;
+import com.catalogo.proyecto.Exceptions.InvalidDataException;
 import com.catalogo.proyecto.Models.Pedido;
 import com.catalogo.proyecto.Repositories.IOPedido;
 
@@ -16,9 +17,15 @@ import com.catalogo.proyecto.Repositories.IOPedido;
 public class PedidoService {
     @Autowired
     private IOPedido repoPedido;
+    @Autowired
+    private UsuarioService serviceUsuario;
 
     public Pedido realizarPedido(Pedido pedido) {
-        return repoPedido.save(pedido);
+        if (this.validarPedidoEntry(pedido)) {
+            return repoPedido.save(pedido);
+        }else{
+            throw new InvalidDataException("Error al ingresar a la base de datos");
+        }
     }
 
     public Pedido getPedidoId(UUID pedidoId) {
@@ -47,5 +54,22 @@ public class PedidoService {
         }else{
             throw new DataNotFoundException("Pedidos no encontrados en esa fecha");
         }
+    }
+
+    /**
+     * Metodo para validar los parametros para la entrada de un pedido
+     * @param pedido Pedido
+     * @return Si los parametos son validos devuelve true
+     */
+    private boolean validarPedidoEntry(Pedido pedido) {
+        if (pedido.getComprador() == null || pedido.getDescripcion() == "" 
+        || pedido.getArticulos() == null ||pedido.getArticulos().isEmpty() ||
+         pedido.getVendedor() == null) {
+            throw new InvalidDataException("Los datos datos de un pedido no son validos");
+        }
+        serviceUsuario.getUsuarioId(pedido.getComprador().getId());
+        serviceUsuario.getUsuarioId(pedido.getVendedor().getId());
+
+        return true;
     }
 }
