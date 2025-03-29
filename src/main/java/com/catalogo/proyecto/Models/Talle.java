@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Entity(name = "talles")
 public class Talle {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
     private String nombre;
