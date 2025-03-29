@@ -1,5 +1,6 @@
 package com.catalogo.proyecto.Services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,10 @@ public class TalleService {
         }else{
             throw new InvalidDataException("Error al insertar en la base de datos");
         }
+    }
+
+    public List<Talle> getAllTalles() {
+        return repoTalle.findAll();
     }
 
     public Talle getTalleId(int idTalle) {
