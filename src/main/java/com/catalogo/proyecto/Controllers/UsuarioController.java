@@ -9,11 +9,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.catalogo.proyecto.Exceptions.DataNotFoundException;
 import com.catalogo.proyecto.Models.Usuario;
+import com.catalogo.proyecto.Models.EntryModels.UsuarioEntry;
 import com.catalogo.proyecto.Services.UsuarioService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 
@@ -46,4 +50,12 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.eliminarUsuario(idUsuario));
     }
     
+    @PutMapping("/modify/{id}")
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody UsuarioEntry usuario) {
+        if (service.getUsuarioId(id) != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(service.updateUsuario(id, usuario));
+        }else{
+            throw new DataNotFoundException("El usuario no se ha encontrado");
+        }
+    }
 }

@@ -52,4 +52,29 @@ public class CategoriaService {
         }
         return true;
     }
+
+    /**
+     * Metodo para actualizar los parametros de una categoria
+     * @param newCategoria Categoria de entrada
+     * @return Categoria actualizada
+     */
+    public Categoria updateCategoria(Categoria newCategoria) {
+        Categoria oldCategoria = this.getCategoriaId(newCategoria.getId());
+        boolean isNullEntity = false;
+        if (oldCategoria.getNombre() != newCategoria.getNombre() && newCategoria.getNombre() != null) {
+            oldCategoria.setNombre(newCategoria.getNombre());
+            isNullEntity = true;
+        }
+
+        if (oldCategoria.getDescripcion() != newCategoria.getDescripcion() && newCategoria.getDescripcion() != null) {
+            oldCategoria.setDescripcion(newCategoria.getDescripcion());
+            isNullEntity = true;
+        }
+
+        if (isNullEntity) {
+            return repoCategoria.save(oldCategoria);
+        }else{
+            throw new InvalidDataException("Los datos ingresados no deben ser nulos");
+        }
+    }
 }       

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.catalogo.proyecto.Exceptions.DataNotFoundException;
 import com.catalogo.proyecto.Models.Talle;
 import com.catalogo.proyecto.Services.TalleService;
 
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 @RestController
@@ -41,6 +44,15 @@ public class TalleController {
     @GetMapping("/delete/{id}")
     public ResponseEntity<Talle> eliminarTalleId(@PathVariable Integer id) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(talleService.eliminarTalleId(id));
+    }
+
+    @PutMapping("modify/{id}")
+    public ResponseEntity<Talle> updateTalle(@PathVariable Integer id, @RequestBody Talle talle) {
+        if (talleService.getTalleId(id) != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(talleService.updateTalle(talle));
+        }else{
+            throw new DataNotFoundException("El talle no fue encontrado");
+        }
     }
     
 }

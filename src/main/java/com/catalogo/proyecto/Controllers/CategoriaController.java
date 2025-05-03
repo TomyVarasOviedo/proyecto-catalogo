@@ -3,6 +3,7 @@ package com.catalogo.proyecto.Controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.catalogo.proyecto.Exceptions.DataNotFoundException;
 import com.catalogo.proyecto.Models.Categoria;
 import com.catalogo.proyecto.Services.CategoriaService;
 
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @RestController
 @RequestMapping("/api/categoria")
@@ -40,6 +44,15 @@ public class CategoriaController {
     @GetMapping("/delete")
     public ResponseEntity<Categoria> eliminarCategoria(@RequestParam Long idCategoria) {
         return ResponseEntity.status(HttpStatus.CREATED).body(servicio.eliminaCategoria(idCategoria));
+    }
+
+    @PutMapping("modify/{id}")
+    public ResponseEntity<Categoria> updateCategoria(@PathVariable Long id, @RequestBody Categoria categoria) {
+        if (servicio.getCategoriaId(id) != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(servicio.updateCategoria(categoria));
+        }else{
+            throw new DataNotFoundException("La categoria no fue encontrada");
+        }
     }
 
 }

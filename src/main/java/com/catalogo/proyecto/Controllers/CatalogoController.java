@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.catalogo.proyecto.Exceptions.DataNotFoundException;
 import com.catalogo.proyecto.Models.Catalogo;
 import com.catalogo.proyecto.Repositories.IOCatalogo;
 import com.catalogo.proyecto.Services.CatalogoService;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 
@@ -49,4 +52,12 @@ public class CatalogoController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(servicio.eliminarCatalogo(idCatalogo));
     }
     
+    @PutMapping("/modify/{id}")
+    public ResponseEntity<Catalogo> modificarCatalogo(@PathVariable Long id, @RequestBody Catalogo catalogo) {
+        if (servicio.getCatalogoId(id) != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(servicio.updateCatalogo(catalogo));
+        }else{
+            throw new DataNotFoundException("El catalogo no se ha encontrado");
+        }
+    }
 }

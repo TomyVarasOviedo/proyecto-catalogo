@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.catalogo.proyecto.Exceptions.DataNotFoundException;
 import com.catalogo.proyecto.Models.Pedido;
 import com.catalogo.proyecto.Services.PedidoService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 @RestController
@@ -49,4 +52,12 @@ public class PedidoController {
         return ResponseEntity.status(HttpStatus.OK).body(servicio.eliminarPedido(idPedido));
     }   
     
+    @PutMapping("modify/{id}")
+    public ResponseEntity<Pedido> updatePedido(@PathVariable UUID id, @RequestBody Pedido pedido) {
+        if (servicio.getPedidoId(id) != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(servicio.updatePedido(pedido));
+        }else{
+            throw new DataNotFoundException("El pedido no se ha encontrado");
+        }
+    }
 }
