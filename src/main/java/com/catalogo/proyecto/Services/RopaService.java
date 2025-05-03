@@ -57,4 +57,39 @@ public class RopaService {
 
         return true;
     }
+
+    /**
+     * Metodo para actualizar los parametros de un articulo
+     * @param newRopa Nueva Ropa para actualizar
+     * @return Ropa actualizada
+     */
+    public Ropa updateRopa(Ropa newRopa) {
+        Ropa oldRopa = this.getRopaId(newRopa.getId());
+        boolean isNullEntity = false;
+        if (oldRopa.getNombre() != newRopa.getNombre() && newRopa.getNombre() != null) {
+            oldRopa.setNombre(newRopa.getNombre());
+            isNullEntity = true;
+        }
+
+        if (oldRopa.getDescripcion() != newRopa.getDescripcion() && newRopa.getDescripcion() != null) {
+            oldRopa.setDescripcion(newRopa.getDescripcion());
+            isNullEntity = true;
+        }
+
+        if (newRopa.getSeccion() != oldRopa.getSeccion() && newRopa.getSeccion() != null) {
+            oldRopa.setSeccion(newRopa.getSeccion());
+            isNullEntity = true;
+        }
+
+        if (oldRopa.getTalle() != newRopa.getTalle() && newRopa.getTalle() != null) {
+            oldRopa.setTalle(newRopa.getTalle());
+            isNullEntity = true;
+        }
+
+        if (isNullEntity) {
+            return repoRopa.save(oldRopa);
+        }else{
+            throw new InvalidDataException("Los datos ingresados no pueden ser nulos");
+        }
+    }
 }

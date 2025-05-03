@@ -57,4 +57,24 @@ public class TalleService {
 
         return true;
     }
+
+    /**
+     * Metodo para actualizar los parametros de un Talle en la base de datos
+     * @param newTalle Talle cambiado
+     * @return Talle actualizado
+     */
+    public Talle updateTalle(Talle newTalle) {
+        Talle oldTalle = this.getTalleId(newTalle.getId());
+        boolean isNullEntity = true;
+        if (oldTalle.getNombre() != newTalle.getNombre() && newTalle != null) {
+            oldTalle.setNombre(newTalle.getNombre());
+            isNullEntity = true;
+        }
+
+        if (isNullEntity) {
+            return repoTalle.save(oldTalle);
+        }else{
+            throw new InvalidDataException("Los datos no deben ser nulos");
+        }
+    }
 }

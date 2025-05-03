@@ -69,4 +69,52 @@ public class SeccionService {
 
         return true;
     }
+
+    /**
+     * Metodo para actualizar una Seccion en la base de datos
+     * @param newSeccion Seccion nueva
+     * @return Seccion actualizada
+     */
+    public Seccion updatSeccion(Seccion newSeccion) {
+        Seccion oldSeccion = this.getSeccionId(newSeccion.getId());
+        boolean isNullEntity = false;
+        if (oldSeccion.getNombre() != newSeccion.getNombre() && newSeccion.getNombre() != null) {
+            oldSeccion.setNombre(newSeccion.getNombre());
+            isNullEntity = true;
+        }
+
+        if (oldSeccion.getDescripcion() != newSeccion.getDescripcion() && newSeccion.getDescripcion() != null) {
+            oldSeccion.setDescripcion(newSeccion.getDescripcion());
+            isNullEntity = true;
+        }
+
+        if (newSeccion.getCategoria() != null) {
+            newSeccion.getCategoria().forEach((categoria) ->{
+                if (!oldSeccion.getCategoria().contains(categoria)) {
+                    oldSeccion.getCategoria().add(categoria);
+                }
+            });
+            isNullEntity = true;
+        }
+
+        if (newSeccion.getCatalogo() != oldSeccion.getCatalogo() && newSeccion.getCatalogo() != null) {
+            oldSeccion.setCatalogo(newSeccion.getCatalogo());
+            isNullEntity = true;
+        }
+
+        if (newSeccion.getArticulos() != null) {
+            newSeccion.getArticulos().forEach((articulo)->{
+                if (!oldSeccion.getArticulos().contains(articulo)) {
+                    oldSeccion.getArticulos().add(articulo);
+                }
+            });
+            isNullEntity = true;
+        }
+
+        if (isNullEntity) {
+            return repoSeccion.save(oldSeccion);
+        }else{
+            throw new InvalidDataException("Los datos ingresados no deben ser nulos");
+        }
+    }
 }

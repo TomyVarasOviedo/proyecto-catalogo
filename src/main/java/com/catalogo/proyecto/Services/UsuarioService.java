@@ -11,6 +11,7 @@ import com.catalogo.proyecto.Exceptions.DataNotFoundException;
 import com.catalogo.proyecto.Exceptions.InvalidDataException;
 import com.catalogo.proyecto.Models.Pedido;
 import com.catalogo.proyecto.Models.Usuario;
+import com.catalogo.proyecto.Models.EntryModels.UsuarioEntry;
 import com.catalogo.proyecto.Repositories.IOUsuario;
 
 @Service
@@ -84,5 +85,42 @@ public class UsuarioService {
         }
 
         return true;
+    }
+
+    /**
+     * Metodo para actualizar un Usuario en la base de datos
+     * @param newUsuario Usuario con parametros nuevos
+     * @return Usuario modificado
+     */
+    public Usuario updateUsuario(Long id, UsuarioEntry newUsuario) {
+        Usuario oldUsuario = this.getUsuarioId(id);
+        boolean isNullEntity = false;
+        if (oldUsuario.getUsername() != newUsuario.getUsername() && newUsuario.getUsername() != null) {
+            System.out.println("Entre");
+
+            oldUsuario.setUsername(newUsuario.getUsername());
+            isNullEntity = true;
+        }
+
+        if (oldUsuario.getPassword() != newUsuario.getPassword() && newUsuario.getPassword() != null) {
+            System.out.println("Entre");
+            // Futuro fix: una vez este implementado la encriptacion de contraseña, habra que primero descriptarla
+            // para poder luego encriptarla nuevamente para volver a insertarla en la base de datos
+            oldUsuario.setPassword(newUsuario.getPassword());
+            isNullEntity = true;
+        }
+
+        if (oldUsuario.getMail() != newUsuario.getMail() && newUsuario.getMail() != null) {
+            System.out.println(newUsuario.getMail());
+
+            oldUsuario.setMail(newUsuario.getMail());
+            isNullEntity = true;
+        }
+
+        if (isNullEntity) {
+            return repositorioUsuario.save(oldUsuario);
+        }else{
+            throw new InvalidDataException("Los datos ingresados no deben ser nulos");
+        }
     }
 }

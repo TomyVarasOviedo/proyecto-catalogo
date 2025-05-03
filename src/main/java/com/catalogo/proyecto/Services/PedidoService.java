@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.catalogo.proyecto.Exceptions.DataNotFoundException;
 import com.catalogo.proyecto.Exceptions.InvalidDataException;
 import com.catalogo.proyecto.Models.Pedido;
+import com.catalogo.proyecto.Models.Ropa;
 import com.catalogo.proyecto.Repositories.IOPedido;
 
 @Service
@@ -71,5 +72,45 @@ public class PedidoService {
         serviceUsuario.getUsuarioId(pedido.getVendedor().getId());
 
         return true;
+    }
+
+    /**
+     * Metodo para actualizar los parametros de un pedido
+     * @param newPedido Pedido nuevo
+     * @return Pedido actualizado
+     */
+    public Pedido updatePedido(Pedido newPedido) {
+        Pedido oldPedido = this.getPedidoId(newPedido.getId());
+        boolean isNullEntity = false;
+        if (oldPedido.getComprador() != newPedido.getComprador() && newPedido.getComprador() != null) {
+            serviceUsuario.getUsuarioId(newPedido.getComprador().getId());
+            oldPedido.setComprador(newPedido.getComprador());
+            isNullEntity = true;
+        }
+
+        if (oldPedido.getDescripcion() != newPedido.getDescripcion() && newPedido.getDescripcion() != null) {
+            oldPedido.setDescripcion(newPedido.getDescripcion());
+            isNullEntity = true;
+        }
+
+        if (oldPedido.getVendedor() != newPedido.getVendedor() && newPedido.getVendedor() != null) {
+            serviceUsuario.getUsuarioId(newPedido.getVendedor().getId());
+            oldPedido.setVendedor(newPedido.getVendedor());
+            isNullEntity = true;
+        }
+
+        if (newPedido.getArticulos() != null) {
+            for (Ropa articulo : newPedido.getArticulos()) {
+                if(!oldPedido.getArticulos().contains(articulo)){
+                    oldPedido.getArticulos().add(articulo);
+                }
+            }
+        }
+
+        if (isNullEntity) {
+            return repoPedido.save(oldPedido);
+        }else{
+            throw new InvalidDataException("Los datos ingresados no deben ser nulos");
+        }
     }
 }
