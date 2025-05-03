@@ -5,3 +5,4 @@
 > - `GET:` /api/usuario/all Obtener todos los usuarios
 > ## Categoria
 > ### Rutas:
+> - POST: /api/categoria/ Agregar una categoria
